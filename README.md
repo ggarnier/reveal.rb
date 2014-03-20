@@ -1,6 +1,8 @@
 # reveal.rb
 
-Presentation generator using reveal.js
+[reveal.js](https://github.com/hakimel/reveal.js) presentation generator.
+
+Current version uses reveal.js 2.6.1
 
 ## Installation
 

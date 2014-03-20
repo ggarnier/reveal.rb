@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.version       = Reveal::VERSION
   gem.authors       = ["Guilherme Garnier"]
   gem.email         = ["guilherme.garnier@gmail.com"]
-  gem.summary       = "Presentation generator using reveal.js"
+  gem.summary       = "reveal.js presentation generator"
   gem.description   = "Generates presentations using reveal.js"
   gem.homepage      = "https://github.com/ggarnier/reveal.rb"
   gem.license       = "MIT"
