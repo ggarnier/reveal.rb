@@ -47,7 +47,9 @@ module Reveal
       Dir.glob(File.join(SOURCE_DIR, "*.md")).each do |filename|
         source_content << <<-SLIDE
       <section data-markdown>
-      #{File.read(filename)}
+        <script type="text/template">
+          #{File.read(filename)}
+        </script>
       </section>
 
       SLIDE
