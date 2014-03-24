@@ -1,9 +1,11 @@
 require 'fileutils'
+require 'yaml'
 
 module Reveal
   SOURCE_DIR = "source"
   OUTPUT_DIR = "output"
   TEMPLATE_FILENAME = "template.html"
+  CONFIG_FILENAME = "reveal.yml"
   SLIDES_TAG = "<slides>"
 
   module Cli
@@ -16,7 +18,7 @@ module Reveal
     def create args
       name = args.first
 
-      if Dir.exists?(name)
+      if File.exists?(name)
         puts "#{name} already exists."
         exit 1
       end
@@ -24,19 +26,25 @@ module Reveal
       FileUtils.mkdir_p(File.join(name, SOURCE_DIR))
       FileUtils.mkdir_p(File.join(name, OUTPUT_DIR))
       FileUtils.cp(File.join(templates_path, TEMPLATE_FILENAME), name)
+      FileUtils.cp(File.join(templates_path, CONFIG_FILENAME), name)
       FileUtils.cp_r(File.join(templates_path, "revealjs", "."), File.join(name, OUTPUT_DIR))
 
-      puts "#{name} presentation created."
+      puts "Presentation '#{name}' created."
     end
 
     def add_slide args
       check_if_presentation_exists
 
+      config["slides"] ||= []
+
       args.each do |slide_name|
         filepath = File.join(SOURCE_DIR, "#{slide_name}.md")
         FileUtils.touch(filepath)
-        puts "#{filepath} created."
+        config["slides"] << slide_name
+        puts "Slide '#{filepath}' created."
       end
+
+      write_config
     end
 
     def generate args
@@ -44,7 +52,7 @@ module Reveal
 
       source_content = ""
 
-      Dir.glob(File.join(SOURCE_DIR, "*.md")).each do |filename|
+      ordered_slide_names.each do |filename|
         source_content << <<-SLIDE
       <section data-markdown>
         <script type="text/template">
@@ -52,7 +60,7 @@ module Reveal
         </script>
       </section>
 
-      SLIDE
+        SLIDE
       end
 
       template = File.read(TEMPLATE_FILENAME)
@@ -61,7 +69,7 @@ module Reveal
         file.write(template.gsub(SLIDES_TAG, source_content))
       end
 
-      puts "#{compiled_filename} presentation generated."
+      puts "#{compiled_filename} presentation file generated."
     end
 
     private
@@ -80,6 +88,24 @@ module Reveal
           File.join(Gem.dir, "gems", "reveal.rb-#{Reveal::VERSION}", "lib", "reveal", "templates")
         ].select { |item| File.readable?(item) }.first
       end
+    end
+
+    def ordered_slide_names
+      if config && config["order"] == "manual" && config["slides"]
+        config["slides"].
+          map { |slide_name| File.join(SOURCE_DIR, "#{slide_name}.md") }.
+          select { |filepath| File.readable?(filepath) }
+      else
+        Dir.glob(File.join(SOURCE_DIR, "*.md"))
+      end
+    end
+
+    def config
+      @config ||= YAML.load(File.read(CONFIG_FILENAME))
+    end
+
+    def write_config
+      File.write(CONFIG_FILENAME, config.to_yaml)
     end
   end
 end

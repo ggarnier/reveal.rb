@@ -26,14 +26,14 @@ That's it! Now open `output/index.html` to watch your presentation.
 
 ## Configuration
 
-Currently, reveal.rb doesn't support any configuration options yet. But
-there are some indirect ways to change some configuration parameters.
+All currently supported configurations are made through `reveal.yml` file.
 
 ### Slides order
 
-`reveal generate` command adds the slides in alphabetical order. That
-means, if you call `reveal add-slide slide2 slide1` and then `reveal
-generate`, it will add `slide1` before `slide2`.
+There are two ways to order your slides:
+
+* **Manual order**: set `order` parameter to `manual` and list your slide names in `slides` parameter. This is the default configuration, and it's automatically done for you with `reveal add-slide` command;
+* **Alphabetical order**: if you omit `order` parameter (or set it to anything other than `manual`), slides will be orderer alphabetically.
 
 ### reveal.js configurations
 
