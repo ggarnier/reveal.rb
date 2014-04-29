@@ -1,5 +1,7 @@
 # reveal.rb
 
+[![Analytics](https://ga-beacon.appspot.com/UA-25495907-3/github/reveal.rb)](https://github.com/igrigorik/ga-beacon)
+
 [reveal.js](https://github.com/hakimel/reveal.js) presentation generator.
 
 Current version uses reveal.js 2.6.2
