@@ -10,12 +10,12 @@ module Reveal
   SLIDES_TAG = '<slides>'
 
   class Command
-    def initialize logger = ::Logger.new(STDOUT)
+    def initialize(logger = ::Logger.new(STDOUT))
       @logger = logger
     end
 
-    def create args
-      name = args.first
+    def create(args)
+      name = Array(args).first
 
       if File.exist?(name)
         raise "ERROR: #{name} already exists."
@@ -31,12 +31,12 @@ module Reveal
       @logger.info("Presentation '#{name}' created.")
     end
 
-    def add_slide args
+    def add_slide(args)
       check_if_presentation_exists
 
       config['slides'] ||= []
 
-      args.each do |slide_name|
+      Array(args).each do |slide_name|
         filepath = File.join(SOURCE_DIR, "#{slide_name}.md")
         FileUtils.touch(filepath)
         config['slides'] << slide_name
@@ -46,7 +46,7 @@ module Reveal
       write_config
     end
 
-    def generate args
+    def generate(_ = nil)
       check_if_presentation_exists
 
       source_content = ''
@@ -68,13 +68,13 @@ module Reveal
         file.write(template.gsub(SLIDES_TAG, source_content))
       end
 
-      @logger.info("#{compiled_filename} presentation file generated.")
+      @logger.info("'#{compiled_filename}' presentation file generated.")
     end
 
     private
 
     def check_if_presentation_exists
-      unless File.exist?(TEMPLATE_FILENAME) && Dir.exist?(SOURCE_DIR) && Dir.exist?(OUTPUT_DIR)
+      unless File.exist?(TEMPLATE_FILENAME) && File.exist?(CONFIG_FILENAME) && Dir.exist?(SOURCE_DIR) && Dir.exist?(OUTPUT_DIR)
         raise "ERROR: The current working directory does not seem to have a reveal.rb presentation.\nCreate one with 'reveal create <presentation name>'."
       end
     end
