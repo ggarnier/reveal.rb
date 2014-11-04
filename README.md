@@ -1,6 +1,7 @@
 # reveal.rb
 
 [![Code Climate](https://codeclimate.com/github/ggarnier/reveal.rb/badges/gpa.svg)](https://codeclimate.com/github/ggarnier/reveal.rb)
+[![Build Status](https://travis-ci.org/ggarnier/reveal.rb.svg)](https://travis-ci.org/ggarnier/reveal.rb)
 [![Analytics](https://ga-beacon.appspot.com/UA-25495907-3/github/reveal.rb)](https://github.com/igrigorik/ga-beacon)
 
 [reveal.js](https://github.com/hakimel/reveal.js) presentation generator.
