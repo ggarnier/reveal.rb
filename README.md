@@ -39,12 +39,14 @@ There are two ways to order your slides:
 
 * **Manual order**: set `order` parameter to `manual` and list your slide names in `slides` parameter. This is the default configuration, and it's automatically done for you with `reveal add-slide` command. Any slide file created inside `source` directory but not included in the configuration file will be ignored. Example:
 
+<pre>
     ---
     order: manual
     slides:
     - slide1
     - slide2
     - slide3
+</pre>
 
 * **Alphabetical order**: if you omit `order` parameter (or set it to anything other than `manual`), `reveal generate` command will add all slide files inside `source`, in alphabetical order.
 
