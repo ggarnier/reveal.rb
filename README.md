@@ -7,7 +7,7 @@
 
 [reveal.js](https://github.com/hakimel/reveal.js) presentation generator.
 
-Current version uses reveal.js 2.6.2
+Current version uses reveal.js 3.1.0
 
 ## Installation
 
