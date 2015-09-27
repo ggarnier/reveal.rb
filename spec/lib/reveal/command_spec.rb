@@ -128,6 +128,20 @@ describe Reveal::Command do
           output = File.read('output/index.html')
           output.must_match /^Presentation: .*slide 1 content.*slide 2 content/m
         end
+
+        describe 'and a slide name already has extension' do
+          before do
+            File.write('reveal.yml', { 'slides' => ['slide1.md', 'slide2'] }.to_yaml)
+          end
+
+          it 'Finds the slide file correctly' do
+            logger.expect(:info, nil, [String])
+            subject.generate
+
+            output = File.read('output/index.html')
+            output.must_match /^Presentation: .*slide 1 content.*slide 2 content/m
+          end
+        end
       end
 
       describe 'and slides are manually ordered' do
@@ -153,6 +167,19 @@ describe Reveal::Command do
 
             output = File.read('output/index.html')
             output.must_match /^Presentation: .*slide 2 content.*slide 1 content/m
+          end
+        end
+
+        describe 'and a slide name already has extension' do
+          before do
+            File.write('reveal.yml', { 'order' => 'manual', 'slides' => ['slide1.md', 'slide2'] }.to_yaml)
+          end
+
+          it 'Finds the slide file correctly' do
+            subject.generate
+
+            output = File.read('output/index.html')
+            output.must_match /^Presentation: .*slide 1 content.*slide 2 content/m
           end
         end
       end

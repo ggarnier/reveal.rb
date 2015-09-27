@@ -93,7 +93,7 @@ module Reveal
     def ordered_slide_names
       if config && config['order'] == 'manual' && config['slides']
         config['slides'].
-          map { |slide_name| File.join(SOURCE_DIR, "#{slide_name}.#{MARKDOWN_EXTENSION}") }.
+          map { |slide_name| File.join(SOURCE_DIR, slide_filename(slide_name)) }.
           select { |filepath| File.readable?(filepath) }
       else
         Dir.glob(File.join(SOURCE_DIR, "*.#{MARKDOWN_EXTENSION}"))
