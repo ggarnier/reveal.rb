@@ -82,6 +82,7 @@ module Reveal
     def templates_path
       @templates_path ||= begin
         [
+          File.join(File.dirname(File.expand_path(__FILE__)), 'templates'),
           File.join(File.dirname(File.expand_path($0)), '..', 'lib', 'reveal', 'templates'),
           File.join(Gem.dir, 'gems', "reveal.rb-#{Reveal::VERSION}", 'lib', 'reveal', 'templates')
         ].select { |item| File.readable?(item) }.first
