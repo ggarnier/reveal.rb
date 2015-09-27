@@ -8,6 +8,7 @@ module Reveal
   TEMPLATE_FILENAME = 'template.html'
   CONFIG_FILENAME = 'reveal.yml'
   SLIDES_TAG = '<slides>'
+  MARKDOWN_EXTENSION = 'md'
 
   class Command
     def initialize(logger = ::Logger.new(STDOUT))
@@ -37,7 +38,7 @@ module Reveal
       config['slides'] ||= []
 
       Array(args).each do |slide_name|
-        filepath = File.join(SOURCE_DIR, "#{slide_name}.md")
+        filepath = File.join(SOURCE_DIR, slide_filename(slide_name))
         FileUtils.touch(filepath)
         config['slides'] << slide_name
         @logger.info("Slide '#{filepath}' created.")
@@ -92,10 +93,10 @@ module Reveal
     def ordered_slide_names
       if config && config['order'] == 'manual' && config['slides']
         config['slides'].
-          map { |slide_name| File.join(SOURCE_DIR, "#{slide_name}.md") }.
+          map { |slide_name| File.join(SOURCE_DIR, "#{slide_name}.#{MARKDOWN_EXTENSION}") }.
           select { |filepath| File.readable?(filepath) }
       else
-        Dir.glob(File.join(SOURCE_DIR, '*.md'))
+        Dir.glob(File.join(SOURCE_DIR, "*.#{MARKDOWN_EXTENSION}"))
       end
     end
 
@@ -105,6 +106,10 @@ module Reveal
 
     def write_config
       File.write(CONFIG_FILENAME, config.to_yaml)
+    end
+
+    def slide_filename(slide_name)
+      slide_name =~ /\.#{MARKDOWN_EXTENSION}$/ ? slide_name : "#{slide_name}.#{MARKDOWN_EXTENSION}"
     end
   end
 end

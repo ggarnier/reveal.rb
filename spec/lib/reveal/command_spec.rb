@@ -89,6 +89,16 @@ describe Reveal::Command do
 
         logger.verify
       end
+
+      describe 'and slide name already includes ".md" extension' do
+        it "doesn't add the extension to the file name" do
+          logger.expect(:info, nil, [String])
+          subject.add_slide(['new_slide.md'])
+
+          File.exist?('source/new_slide.md.md').must_equal false
+          File.exist?('source/new_slide.md').must_equal true
+        end
+      end
     end
 
     describe "when the presentation doesn't exist" do
