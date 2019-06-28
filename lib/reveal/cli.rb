@@ -14,7 +14,7 @@ module Reveal
         exit 1
       end
 
-      send(command_name, command_args)
+      cmd.send(command_name, command_args)
     rescue Exception => e
       puts e.message
       exit 1
