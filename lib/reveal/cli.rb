@@ -9,7 +9,7 @@ module Reveal
       command_args = args[1..-1]
       cmd = Reveal::Command.new(logger)
       supported_cmds = cmd.methods - cmd.class.methods
-      unless supported_cmds.include?(command_name)
+      unless supported_cmds.include?(command_name.to_sym)
         puts "Command '#{command_name}' not supported.\nSupported commands: #{supported_cmds.join(", ")}"
         exit 1
       end
