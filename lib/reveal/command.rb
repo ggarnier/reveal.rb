@@ -31,6 +31,7 @@ module Reveal
 
       @logger.info("Presentation '#{name}' created.")
     end
+    alias new create
 
     def add_slide(args)
       check_if_presentation_exists
@@ -46,6 +47,7 @@ module Reveal
 
       write_config
     end
+    alias add add_slide
 
     def generate(_ = nil)
       check_if_presentation_exists
@@ -71,6 +73,7 @@ module Reveal
 
       @logger.info("'#{compiled_filename}' presentation file generated.")
     end
+    alias build generate
 
     private
 
