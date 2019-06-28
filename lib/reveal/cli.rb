@@ -7,7 +7,14 @@ module Reveal
     def process(args)
       command_name = args.first.gsub('-', '_')
       command_args = args[1..-1]
-      Reveal::Command.new(logger).send(command_name, command_args)
+      cmd = Reveal::Command.new(logger)
+      supported_cmds = cmd.methods - cmd.class.methods
+      unless supported_cmds.include?(command_name)
+        puts "Command '#{command_name}' not supported.\nSupported commands: #{supported_cmds.join(", ")}"
+        exit 1
+      end
+
+      send(command_name, command_args)
     rescue Exception => e
       puts e.message
       exit 1
