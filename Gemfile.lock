@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    reveal.rb (0.5.1)
+    reveal.rb (0.5.2)
 
 GEM
   remote: https://rubygems.org/
